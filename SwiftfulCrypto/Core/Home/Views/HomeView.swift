@@ -32,12 +32,14 @@ struct HomeView_Previews: PreviewProvider {
 extension HomeView {
     
     private var homeHeader: some View {
-        HStack {
-            ZStack {
-                CircleButtonAnimationView(animate: $showPortfolio)
+            HStack {
                 CircleButtonView(iconName: showPortfolio ? "plus" : "info")
-            }
-            
+                    .animation(.none)
+                    .background(
+                        CircleButtonAnimationView(animate: $showPortfolio)
+)
+                
+                
             Spacer()
             
             Text(showPortfolio ? "Portfolio" : "Live Prices")
