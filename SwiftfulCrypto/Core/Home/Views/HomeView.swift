@@ -48,7 +48,7 @@ extension HomeView {
             
             Spacer()
             
-            CircleButtonView(iconName: "chevron.right")hohow
+            CircleButtonView(iconName: "chevron.right")
                 .rotationEffect(Angle(degrees: showPortfolio ? 180 : 0))
                 .onTapGesture {
                     withAnimation(.spring()) {
