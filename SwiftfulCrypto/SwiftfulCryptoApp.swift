@@ -4,14 +4,16 @@
 //
 //  Created by Amir Lajevardi on 25/03/2025.
 //
-
 import SwiftUI
 
 @main
-struct SwiftfulCryptoApp: App {
+struct CryptoApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            NavigationView {
+                HomeView()
+                    .navigationBarHidden(true)
+            }
         }
     }
 }
