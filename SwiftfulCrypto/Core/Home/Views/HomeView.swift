@@ -1,3 +1,8 @@
+// uses HomeViewModel to access allCoins and portfolioCoins
+//Lets user switch between portfolio and live prices
+// animates the view switch
+// shows coin lists using custom CoinRowView
+
 import SwiftUI
 
 struct HomeView: View {

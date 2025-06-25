@@ -5,6 +5,14 @@
 //  Created by Amir Lajevardi on 05/06/2025.
 //
 
+//NetworkingManager. swift is a clean, reusable helper that:
+//Downloads data from a URL.
+//Validates the response.
+//Returns results on the main thread.
+//Integrates with Combine using Publisher.
+// Used by: CoinDataService to fetch crypto data.
+//Possibly other services too.
+
 import Foundation
 import Combine
 

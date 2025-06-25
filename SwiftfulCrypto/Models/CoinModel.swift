@@ -5,6 +5,11 @@
 //  Created by Amir Lajevardi on 27/03/2025.
 //
 
+// defines the CoinModel used across your app
+//Maps all fields from CoinGeckos JSON response
+// supports things like holdings calculation, ranking and sparkline data
+// enables swiftUI to loop through coins with Idnetifiable
+
 import Foundation
 
 // CoinGecko API info

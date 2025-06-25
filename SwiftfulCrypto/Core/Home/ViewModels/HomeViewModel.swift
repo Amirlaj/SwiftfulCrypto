@@ -5,6 +5,11 @@
 //  Created by Amir Lajevardi on 14/05/2025.
 //
 
+// holds the state/data for the home screen (allCoins and protfolioCoins)
+//subscribes to a CoinDataService, and updates allCoins whenever new data is fetched
+// uses Combine for reactive, real-time updates
+// shares this data with Swift views via @Published
+
 import Foundation
 import Combine
 

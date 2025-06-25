@@ -5,6 +5,12 @@
 //  Created by Amir Lajevardi on 04/06/2025.
 //
 
+// fetching the coin data from CoinGecko
+//decoding it into CoinModel objects
+// Publishing that data with @Published
+// used in HomeViewModel to automatically update the UI when coins are fetched
+
+
 import Foundation
 import Combine
 
