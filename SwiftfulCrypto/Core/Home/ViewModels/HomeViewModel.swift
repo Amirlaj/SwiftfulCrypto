@@ -14,10 +14,11 @@ import Foundation
 import Combine
 
 class HomeViewModel: ObservableObject{
-    
+
     @Published var allCoins: [CoinModel] = []
     @Published var porfolioCoins: [CoinModel] = []
     @Published var searchText: String = ""
+    @Published var sortOption: SortOption = .holdings
 
     private let dataService = CoinDataService()
     private var cancellables = Set<AnyCancellable>()
@@ -28,16 +29,22 @@ class HomeViewModel: ObservableObject{
         }
 
     func addSubscribers() {
-        // combines the live search text with the freshly fetched coins,
-        // waits briefly for typing to settle, then republishes the filtered list
+        // combines the live search text, the freshly fetched coins, and the chosen
+        // sort option, waits briefly for typing to settle, then republishes the result
         $searchText
-            .combineLatest(dataService.$allCoins)
+            .combineLatest(dataService.$allCoins, $sortOption)
             .debounce(for: .seconds(0.5), scheduler: DispatchQueue.main)
-            .map(filterCoins)
+            .map(filterAndSortCoins)
             .sink { [weak self] (returnedCoins) in
                 self?.allCoins = returnedCoins
             }
             .store(in: &cancellables)
+    }
+
+    private func filterAndSortCoins(text: String, coins: [CoinModel], sort: SortOption) -> [CoinModel] {
+        var updatedCoins = filterCoins(text: text, coins: coins)
+        sortCoins(sort: sort, coins: &updatedCoins)
+        return updatedCoins
     }
 
     private func filterCoins(text: String, coins: [CoinModel]) -> [CoinModel] {
@@ -53,4 +60,27 @@ class HomeViewModel: ObservableObject{
                 coin.id.lowercased().contains(lowercasedText)
         }
     }
+
+    private func sortCoins(sort: SortOption, coins: inout [CoinModel]) {
+        // holdings sorting is a no-op until portfolio persistence lands (Phase 3);
+        // it falls back to rank for now so the UI already wires up correctly
+        switch sort {
+        case .rank, .holdings:
+            coins.sort(by: { $0.rank < $1.rank })
+        case .rankReversed, .holdingsReversed:
+            coins.sort(by: { $0.rank > $1.rank })
+        case .price:
+            coins.sort(by: { $0.currentPrice > $1.currentPrice })
+        case .priceReversed:
+            coins.sort(by: { $0.currentPrice < $1.currentPrice })
+        }
+    }
+}
+
+extension HomeViewModel {
+
+    enum SortOption {
+        case rank, rankReversed, holdings, holdingsReversed, price, priceReversed
+    }
+
 }
